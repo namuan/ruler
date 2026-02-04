@@ -1,0 +1,38 @@
+# Xcode
+build/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcworkspace
+xcuserdata/
+*.xcodeproj/xcuserdata/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+*~.nib
+
+# IDE
+.vscode/
+.idea/
+*.swiftpm
+
+# Build artifacts
+.build/
+build/
+dist/
+
+# Temporary files
+*.tmp
+*.log
