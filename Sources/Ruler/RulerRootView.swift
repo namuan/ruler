@@ -91,12 +91,13 @@ private struct RulerMeasurementView: View {
   var body: some View {
     let scale = max(displayScale, 1)
     let onePx = 1 / scale
+    let isVertical = state.measurementMode == .vertical
     
     ZStack {
       // Cursor value
       Text("\(state.measurementValuePixels) px")
         .modifier(RulerLabelStyle(onePx: onePx))
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: isVertical ? .topTrailing : .bottomLeading)
 
       // Total length
       Text("Total: \(state.rulerLengthPixels) px")
