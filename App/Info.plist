@@ -6,6 +6,8 @@
   <string>en</string>
   <key>CFBundleExecutable</key>
   <string>Ruler</string>
+  <key>CFBundleIconFile</key>
+  <string>AppIcon</string>
   <key>CFBundleIdentifier</key>
   <string>com.example.ruler</string>
   <key>CFBundleInfoDictionaryVersion</key>
