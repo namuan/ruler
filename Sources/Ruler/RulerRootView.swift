@@ -92,15 +92,17 @@ private struct RulerMeasurementView: View {
     let scale = max(displayScale, 1)
     let onePx = 1 / scale
     let isVertical = state.measurementMode == .vertical
+    let measurementPoints = formatPoints(state.measurementValuePointsAligned)
+    let totalPoints = formatPoints(state.rulerLengthPointsAligned)
     
     ZStack {
       // Cursor value
-      Text("\(state.measurementValuePixels) px")
+      Text("\(measurementPoints) pt (\(state.measurementValuePixels) px)")
         .modifier(RulerLabelStyle(onePx: onePx))
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: isVertical ? .topTrailing : .bottomLeading)
 
       // Total length
-      Text("Total: \(state.rulerLengthPixels) px")
+      Text("Total: \(totalPoints) pt (\(state.rulerLengthPixels) px)")
         .modifier(RulerLabelStyle(onePx: onePx))
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
     }
@@ -134,4 +136,20 @@ private func clamp(_ value: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {
   if value < min { return min }
   if value > max { return max }
   return value
+}
+
+private func formatPoints(_ value: CGFloat) -> String {
+  let epsilon: CGFloat = 0.0001
+  let rounded = value.rounded()
+  if abs(value - rounded) < epsilon {
+    return String(Int(rounded))
+  }
+
+  let rounded1 = (value * 10).rounded() / 10
+  if abs(value - rounded1) < epsilon {
+    return String(format: "%.1f", Double(rounded1))
+  }
+
+  let rounded2 = (value * 100).rounded() / 100
+  return String(format: "%.2f", Double(rounded2))
 }

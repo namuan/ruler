@@ -13,6 +13,10 @@ final class RulerState: ObservableObject {
   @Published var mouseLocationInScreenPoints: CGPoint = .zero
   @Published var measurementMode: MeasurementMode = .horizontal
 
+  private var safeWindowScale: CGFloat {
+    max(windowScale, 1)
+  }
+
   var deltaXPoints: CGFloat {
     mouseLocationInScreenPoints.x - windowFrameInScreenPoints.minX
   }
@@ -32,6 +36,10 @@ final class RulerState: ObservableObject {
     Int((measurementValuePoints * windowScale).rounded())
   }
 
+  var measurementValuePointsAligned: CGFloat {
+    CGFloat(measurementValuePixels) / safeWindowScale
+  }
+
   var rulerLengthPoints: CGFloat {
     switch measurementMode {
     case .horizontal: return windowFrameInScreenPoints.width
@@ -41,5 +49,9 @@ final class RulerState: ObservableObject {
 
   var rulerLengthPixels: Int {
     Int((rulerLengthPoints * windowScale).rounded())
+  }
+
+  var rulerLengthPointsAligned: CGFloat {
+    CGFloat(rulerLengthPixels) / safeWindowScale
   }
 }
