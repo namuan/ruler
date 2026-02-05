@@ -36,6 +36,6 @@ fi
 echo "Installing to ~/Applications..."
 mkdir -p "$INSTALL_DIR"
 rm -rf "$INSTALL_APP"
-ditto "$APP_DIR" "$INSTALL_APP"
+mv "$APP_DIR" "$INSTALL_APP"
 
 echo "Installed: $INSTALL_APP"
