@@ -10,7 +10,7 @@ struct RulerRootView: View {
       RulerBackgroundView(state: state)
       RulerCanvasView(state: state)
       CursorLineView(state: state)
-      RulerReadoutView(state: state)
+      RulerMeasurementView(state: state)
     }
     .onExitCommand { NSApp.terminate(nil) }
     .contextMenu {
@@ -84,15 +84,35 @@ private struct CursorLineView: View {
   }
 }
 
-private struct RulerReadoutView: View {
+private struct RulerMeasurementView: View {
   @ObservedObject var state: RulerState
   @Environment(\.displayScale) private var displayScale
 
   var body: some View {
     let scale = max(displayScale, 1)
     let onePx = 1 / scale
+    
+    ZStack {
+      // Cursor value
+      Text("\(state.measurementValuePixels) px")
+        .modifier(RulerLabelStyle(onePx: onePx))
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
 
-    Text("\(state.measurementValuePixels) px")
+      // Total length
+      Text("Total: \(state.rulerLengthPixels) px")
+        .modifier(RulerLabelStyle(onePx: onePx))
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+    }
+    .padding(10)
+    .allowsHitTesting(false)
+  }
+}
+
+private struct RulerLabelStyle: ViewModifier {
+  let onePx: CGFloat
+  
+  func body(content: Content) -> some View {
+    content
       .font(.system(size: 13, weight: .semibold, design: .monospaced))
       .foregroundStyle(Color.black.opacity(0.82))
       .padding(.horizontal, 10)
@@ -106,9 +126,6 @@ private struct RulerReadoutView: View {
           )
       )
       .shadow(color: Color.black.opacity(0.12), radius: 2, x: 0, y: 1)
-      .padding(10)
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-      .allowsHitTesting(false)
   }
 }
 

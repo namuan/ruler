@@ -31,4 +31,15 @@ final class RulerState: ObservableObject {
   var measurementValuePixels: Int {
     Int((measurementValuePoints * windowScale).rounded())
   }
+
+  var rulerLengthPoints: CGFloat {
+    switch measurementMode {
+    case .horizontal: return windowFrameInScreenPoints.width
+    case .vertical: return windowFrameInScreenPoints.height
+    }
+  }
+
+  var rulerLengthPixels: Int {
+    Int((rulerLengthPoints * windowScale).rounded())
+  }
 }
