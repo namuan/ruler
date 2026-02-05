@@ -3,15 +3,32 @@ import SwiftUI
 
 @MainActor
 final class RulerState: ObservableObject {
+  enum MeasurementMode {
+    case horizontal
+    case vertical
+  }
+
   @Published var windowFrameInScreenPoints: CGRect = .zero
   @Published var windowScale: CGFloat = 1
   @Published var mouseLocationInScreenPoints: CGPoint = .zero
+  @Published var measurementMode: MeasurementMode = .horizontal
 
   var deltaXPoints: CGFloat {
     mouseLocationInScreenPoints.x - windowFrameInScreenPoints.minX
   }
 
-  var deltaXPixels: Int {
-    Int((deltaXPoints * windowScale).rounded())
+  var deltaYPoints: CGFloat {
+    windowFrameInScreenPoints.maxY - mouseLocationInScreenPoints.y
+  }
+
+  var measurementValuePoints: CGFloat {
+    switch measurementMode {
+    case .horizontal: return deltaXPoints
+    case .vertical: return deltaYPoints
+    }
+  }
+
+  var measurementValuePixels: Int {
+    Int((measurementValuePoints * windowScale).rounded())
   }
 }
